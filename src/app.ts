@@ -38,11 +38,16 @@ class ProjectInput {
   }
   /*^^^^ adding the form [ project-input ] to the Root of the Application ^^^**/
 
-  private submitHandler(event: Event) {}
+  private submitHandler(event: Event) {
+    /********** access input values *************/
+    //prevent the default behaviour     [   submitting the form   ]
+    event.preventDefault();
+    console.log(this.titleInputElement.value);
+  }
 
   //attach listener to the inputs
   private configure() {
-    this.element.addEventListener("submit", this.submitHandler);
+    this.element.addEventListener("submit", this.submitHandler.bind(this));
   }
   private attach() {
     this.hostElement.insertAdjacentElement("afterbegin", this.element);
