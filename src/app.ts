@@ -1,3 +1,17 @@
+// autobind decorator
+function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  const adjDescriptor: PropertyDescriptor = {
+    configurable: true,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    }
+  };
+  return adjDescriptor;
+}
+
+//ProjectInput Class
 class ProjectInput {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
@@ -37,7 +51,7 @@ class ProjectInput {
     this.attach();
   }
   /*^^^^ adding the form [ project-input ] to the Root of the Application ^^^**/
-
+  @autobind
   private submitHandler(event: Event) {
     /********** access input values *************/
     //prevent the default behaviour     [   submitting the form   ]
@@ -47,7 +61,7 @@ class ProjectInput {
 
   //attach listener to the inputs
   private configure() {
-    this.element.addEventListener("submit", this.submitHandler.bind(this));
+    this.element.addEventListener("submit", this.submitHandler);
   }
   private attach() {
     this.hostElement.insertAdjacentElement("afterbegin", this.element);
