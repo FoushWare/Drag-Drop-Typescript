@@ -51,12 +51,40 @@ class ProjectInput {
     this.attach();
   }
   /*^^^^ adding the form [ project-input ] to the Root of the Application ^^^**/
+
+  //gatherUserInputs
+  private gatherUserInputs(): [string, string, number] | void {
+    const enteredTitle = this.titleInputElement.value;
+    const enteredDescription = this.descriptionInputElement.value;
+    const enteredPeople = this.peopleInputElement.value;
+    if (
+      enteredTitle.trim().length === 0 ||
+      enteredDescription.trim().length === 0 ||
+      enteredPeople.trim().length === 0
+    ) {
+      alert("invalid input ,please try again");
+      return;
+    } else {
+      return [enteredTitle, enteredDescription, +enteredPeople];
+    }
+  }
+  private clearInputs() {
+    this.titleInputElement.value = "";
+    this.descriptionInputElement.value = "";
+    this.peopleInputElement.value = "";
+  }
   @autobind
   private submitHandler(event: Event) {
     /********** access input values *************/
     //prevent the default behaviour     [   submitting the form   ]
     event.preventDefault();
-    console.log(this.titleInputElement.value);
+    const userInput = this.gatherUserInputs();
+    if (Array.isArray(userInput)) {
+      const [title, des, people] = userInput;
+      console.log(title, des, people);
+      this.clearInputs();
+    }
+    // console.log(this.titleInputElement.value);
   }
 
   //attach listener to the inputs
